@@ -12,7 +12,7 @@ services:
   node:
     container_name: node_dev
     image: node:25
-    working_dir: /data/src/src
+    working_dir: /data
     volumes:
       - type: bind
         source: ./src
