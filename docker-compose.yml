@@ -1,0 +1,54 @@
+services:
+  app:
+    container_name: laravel_dev
+    build: ./infra/php
+    volumes:
+    - type: bind
+      source: ./src
+      target: /data
+    depends_on:
+      - db
+
+  node:
+    container_name: node_dev
+    image: node:25
+    working_dir: /data/src/src
+    volumes:
+      - type: bind
+        source: ./src
+        target: /data
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - 5173:5173
+
+  web:
+    container_name: nginx_dev
+    image: nginx:1.29
+    ports:
+      - 8080:80
+    volumes:
+    - type: bind
+      source: ./infra/nginx/default.conf
+      target: /etc/nginx/conf.d/default.conf
+    - type: bind
+      source: ./src
+      target: /data
+    working_dir: /data
+    depends_on:
+      - app
+
+  db:
+    container_name: psql_dev
+    image: postgres:18
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "laravel"
+    ports:
+      - 5432:5432
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql
+volumes:
+  postgres_data:
