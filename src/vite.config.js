@@ -13,7 +13,9 @@ export default defineConfig({
         }),
         tailwindcss(),
         react(),
-        wayfinder(),
+        wayfinder({
+            command: "true"
+        }),
     ],
     server: {
         host: '0.0.0.0',

@@ -15,4 +15,8 @@ COPY ./php.ini /usr/local/etc/php/php.ini
 
 EXPOSE 9000
 
+RUN 
+
 WORKDIR /data
+
+CMD [ "php-fpm" ]
