@@ -2,6 +2,7 @@ services:
   app:
     container_name: laravel_dev
     build: ./infra/php
+    image: laravel
     volumes:
     - type: bind
       source: ./src
